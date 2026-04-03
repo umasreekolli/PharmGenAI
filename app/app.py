@@ -253,6 +253,7 @@ if st.button("🔍 Predict ADR Risk", use_container_width=True):
     st.divider()
 
     # --- SHAP Chart ---
+    # --- SHAP Chart ---
     st.subheader("🔬 SHAP Feature Contribution")
     st.caption("Shows which factors pushed the risk prediction up or down")
 
@@ -267,10 +268,16 @@ if st.button("🔍 Predict ADR Risk", use_container_width=True):
             show=False
         )
         plt.tight_layout()
-        st.pyplot(fig)
+        st.pyplot(fig, use_container_width=False)
         plt.close()
     except Exception as e:
-        st.info("SHAP visualization not available for this prediction.")
+        # Fallback — show feature importance as table
+        st.info("Showing feature importance as table:")
+        importance_df = pd.DataFrame({
+            'Feature': features,
+            'Importance': model.feature_importances_
+        }).sort_values('Importance', ascending=False)
+        st.dataframe(importance_df, use_container_width=True)
 
     st.divider()
 

@@ -253,32 +253,33 @@ if st.button("🔍 Predict ADR Risk", use_container_width=True):
     st.divider()
 
     # --- SHAP Chart ---
-    # --- SHAP Chart ---
-    st.subheader("🔬 SHAP Feature Contribution")
-    st.caption("Shows which factors pushed the risk prediction up or down")
+   # --- SHAP Chart ---
+    st.subheader("🔬 Feature Importance")
+    st.caption("Shows which factors influenced the risk prediction most")
 
-    try:
-        shap_values = explainer.shap_values(X_input)
-        fig, ax = plt.subplots(figsize=(8, 4))
-        shap.summary_plot(
-            shap_values[pred],
-            X_input,
-            feature_names=features,
-            plot_type="bar",
-            show=False
-        )
-        plt.tight_layout()
-        st.pyplot(fig, use_container_width=False)
-        plt.close()
-    except Exception as e:
-        # Fallback — show feature importance as table
-        st.info("Showing feature importance as table:")
-        importance_df = pd.DataFrame({
-            'Feature': features,
-            'Importance': model.feature_importances_
-        }).sort_values('Importance', ascending=False)
-        st.dataframe(importance_df, use_container_width=True)
+    import plotly.express as px
 
+    importance_df = pd.DataFrame({
+        'Feature':    features,
+        'Importance': model.feature_importances_
+    }).sort_values('Importance', ascending=True)
+
+    fig = px.bar(
+        importance_df,
+        x='Importance',
+        y='Feature',
+        orientation='h',
+        color='Importance',
+        color_continuous_scale='Reds',
+        title='Feature Importance — What drove this prediction'
+    )
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_color='white',
+        showlegend=False
+    )
+    st.plotly_chart(fig, use_container_width=True)
     st.divider()
 
     # --- Session Log ---

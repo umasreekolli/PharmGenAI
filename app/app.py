@@ -270,8 +270,7 @@ if st.button("🔍 Predict ADR Risk", use_container_width=True):
         st.pyplot(fig)
         plt.close()
     except Exception as e:
-        st.image('model/shap_importance.png',
-                 caption="Overall feature importance")
+        st.info("SHAP visualization not available for this prediction.")
 
     st.divider()
 

@@ -47,11 +47,51 @@ AI-based ADR risk prediction tool that integrates:
 ---
 
 ## How to Run Locally
-```bash
 git clone https://github.com/umasreekolli/PharmGenAI
 cd PharmGenAI
 pip install -r requirements.txt
 streamlit run app/app.py
+
+---
+
+## Project Structure
+PharmGenAI/
+├── app/
+│   └── app.py              
+├── data/
+│   ├── adr_dataset.csv     
+│   └── generate_dataset.py 
+├── model/
+│   └── train_model.py      
+├── requirements.txt
+└── README.md
+
+---
+
+## Model Performance
+- Accuracy: 84%
+- High Risk Detection: 90%
+- Features: NumDrugs, Comorbidities, Age, CYP450 variants
+
+---
+
+## Disclaimer
+⚠️ For research and educational use only.
+Not intended for clinical decisions.
+
+---
+
+## Author
+Umasree Kolli
+B.Pharm Student | PharmGenAI Creator
+GitHub: https://github.com/umasreekolli
+
+---
+
+## License
+Copyright 2026 Umasree Kolli.
+Personal and educational use only.
+Commercial use not permitted without permission.
 ```
 
 ---

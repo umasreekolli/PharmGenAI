@@ -13,6 +13,20 @@ st.set_page_config(
 )
 
 # --- Load Model Files ---
+import subprocess
+import os
+
+# --- Auto-generate model if not present ---
+if not os.path.exists('model/adr_model.pkl'):
+    st.info("Setting up model for first time... please wait 30 seconds")
+    # Generate dataset if missing
+    if not os.path.exists('data/adr_dataset.csv'):
+        subprocess.run(['python', 'data/generate_dataset.py'])
+    # Train model
+    subprocess.run(['python', 'model/train_model.py'])
+    st.rerun()
+
+# --- Load Model Files ---
 model     = joblib.load('model/adr_model.pkl')
 explainer = joblib.load('model/shap_explainer.pkl')
 features  = joblib.load('model/feature_names.pkl')
